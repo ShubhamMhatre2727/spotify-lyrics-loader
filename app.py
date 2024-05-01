@@ -15,7 +15,8 @@ class thread(threading.Thread):
         if(current_track):
             if current_track['currently_playing_type'] == "ad":
                 list_box.insert(0, "ad playing")
-                time.sleep(15)
+                print("ad playing")
+                time.sleep(30)
                 list_box.delete(0, "end")
                 self.run()
 
@@ -45,6 +46,7 @@ class thread(threading.Thread):
 
     def display_lyrics(self, i, list, prev, current_track):
         if(i<len(list)):
+            print(list[i][11:])
             list_box.insert(i, list[i][11:])
             list_box.see("end")
             curr = float(list[i][1:3]) * 60 + float(list[i][4:6])
@@ -63,7 +65,7 @@ class thread(threading.Thread):
 
 
 def start():
-    start.grid_remove()
+    start.config(state="disabled")
     list_box.delete(0, "end")
     thread().start()
 
@@ -74,15 +76,15 @@ def toggle():
     if display :
         # btn1.grid()
         start.grid()
-        toggle.grid(row=2, column=1)
+        toggle.grid(row=1, column=1)
         display = False
-        toggle.config(text="hide")
+        toggle.config(text="hide", width=button_width)
     else:
         # btn1.grid_remove()
         start.grid_remove()
-        toggle.grid(row=0,column=1, rowspan=2)
+        toggle.grid(row=0,column=1)
         display = True
-        toggle.config(text="show")
+        toggle.config(text="X", width=5)
 
     root.overrideredirect(display)
 
@@ -100,7 +102,7 @@ root.resizable(width=False, height=False)
 hidden_color = "black"
 root.wm_attributes("-transparentcolor", hidden_color)
 
-frame = tk.Frame(root, bd=2, relief="solid", bg=hidden_color)
+frame = tk.Frame(root, bg=hidden_color)
 frame.pack()
 
 button_width = 12
@@ -114,17 +116,15 @@ status = tk.Label(frame, width=label_width, bg=hidden_color, fg="white")
 label1 = tk.Label(frame, text="label1", width=label_width, bg=hidden_color, fg="white")
 label2 = tk.Label(frame, text="label2", width=label_width, bg=hidden_color, fg="white")
 
-labels = [status, label1, label2]
-
 # btn1.grid(row=0, column=1)
-start.grid(row=1, column=1)
-toggle.grid(row=2, column=1)
+start.grid(row=0, column=1)
+toggle.grid(row=1, column=1)
 
 # status.grid(row=0, column=0)
 # label1.grid(row=1, column=0, pady=5)
 # label2.grid(row=2, column=0)
 
-list_box = tk.Listbox(frame, bg="black", fg="white", width=50, height=(start.winfo_height()*3))
-list_box.grid(row=1, column=0, rowspan=3)
+list_box = tk.Listbox(frame, bg="black",bd=0, font=("", 12, "bold"), justify="right" ,highlightthickness=0 , fg="white", width=50, height=(start.winfo_height()*3))
+list_box.grid(row=0, column=0, rowspan=3, padx=10)
 
 root.mainloop()
