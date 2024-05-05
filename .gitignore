@@ -1,5 +1,9 @@
-/env/*
-
 .env
 
 auth_token.json
+
+spotify-lyrics-loader.exe
+/app.spec
+/dist/
+/build
+/__pycache__
